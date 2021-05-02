@@ -7,7 +7,6 @@ SHOWING_CN = 'showing';
 
 function saveName(text) {
     localStorage.setItem(USER_LS, text)
-
 }
 
 function handleSubmit(event) {
@@ -16,6 +15,8 @@ function handleSubmit(event) {
      paintGreeting(currentValue);
      saveName(currentValue);
 }
+
+
 
 function askForName() {
     form.classList.add(SHOWING_CN);
