@@ -3,7 +3,27 @@ const toDoForm = document.querySelector('.js-toDoForm'),
     toDoList = document.querySelector('.js-toDoList')
 
 const TODOS_LS = "toDos"
-const toDos = []
+let toDos = []
+
+
+//filter는 forEach처럼 받은 함수를 하나씩 실행 가능. 
+//삭제버튼을 찾기위해서는 console.dir(event.target)로 parents요소를 검색해서 반영
+function deleteToDo(event) {
+    const btn = event.target
+    const li = btn.parentNode
+    toDoList.removeChild(li)
+
+    const cleanToDos = toDos.filter(function(toDo){
+        return toDo.id !== parseInt(li.id)
+    })
+
+    //toDos변수를 cleanToDos로 바꿔서 let으로 바꿔줘야함 
+    toDos = cleanToDos
+    saveToDos()
+
+}
+
+
 
 function saveToDos() {
     localStorage.setItem(TODOS_LS, JSON.stringify(toDos))
@@ -16,6 +36,7 @@ function paintToDo(text) {
     const span = document.createElement("span")
     const newId = toDos.length + 1;
     delBtn.innerHTML = "❌"
+    delBtn.addEventListener('click', deleteToDo)
     span.innerText = text
     li.appendChild(span)
     li.appendChild(delBtn)
@@ -24,13 +45,11 @@ function paintToDo(text) {
     const toDoObj = {
         text: text,
         id: newId
-
     }
+
     toDos.push(toDoObj)
     saveToDos()
-
 }
-
 
 function handleSubmit(event) {
     event.preventDefault()
@@ -39,14 +58,12 @@ function handleSubmit(event) {
     toDoInput.value = ""
 }
 
-
-
 function loadToDos() {
     const loadedToDos = localStorage.getItem(TODOS_LS)
     if (loadedToDos !== null) {
         const parsedToDos = JSON.parse(loadedToDos)
         parsedToDos.forEach(function(toDo) {
-            paintToDo(toDo.text)
+            paintToDo(toDo. text)
         });
 
     }
